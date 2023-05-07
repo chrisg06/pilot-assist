@@ -31,8 +31,9 @@ export default {
       })
         .then((response) => {
           response.json().then((data) => {
-            this.metar = data.weather.metar;
-            this.taf = data.weather.taf;
+            console.log(data)
+            this.metar = data.metar;
+            this.taf = data.taf;
             this.loading = false;
           });
         })
@@ -46,7 +47,8 @@ export default {
 </script>
 
 <template>
-  <div
+  <main>
+    <div
     class="max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
   >
     <h1 href="#">
@@ -82,7 +84,7 @@ export default {
       </div>
       <button
         @click="fetchData"
-        type="submit"
+        type="button"
         class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <svg
@@ -116,4 +118,5 @@ export default {
         </ul>
     </form>
   </div>
+  </main>
 </template>
