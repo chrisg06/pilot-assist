@@ -4,18 +4,15 @@ import './assets/index.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import home from './views/home.vue'
+import weather from './views/weather.vue'
 
-const weatherCard = () => import('./components/WeatherCard.vue')
 import routeCard from './components/routeCard.vue'
 import { createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router'
 
-const Weather = {template: weatherCard }
-const routeTool = {template: routeCard }
 
 const routes: Array<RouteRecordRaw> = [
     {path: '/', component: home},
-    { path: '/weather', component: Weather },
-    { path: '/routes', component: routeTool }
+    { path: '/weather', component: weather },
 ]
 
 const router = createRouter({
