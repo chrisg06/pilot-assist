@@ -10,3 +10,17 @@ export type WxType = {
     vis: string,
     cld: Array<string>,
 }
+
+export type RouteType = {
+    count: number,
+    routes: [
+        {
+            id: number,
+            dept: string,
+            dest: string,
+            acft: string,
+            route: string,
+            notes: string, 
+        }
+    ]
+}
