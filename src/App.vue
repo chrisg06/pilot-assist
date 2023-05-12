@@ -7,7 +7,7 @@ import routeCard from './components/routeCard.vue'
 <template>
   <main class="bg-white px-10">
     <navbar />
-    <div class="flex justify-center">
+    <div class="flex justify-center mx-36">
       <router-view></router-view>
     </div>
 
