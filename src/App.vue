@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import navbar from './components/navbar.vue'
-import weatherCard from './components/WeatherCard.vue'
-import routeCard from './components/routeCard.vue'
 </script>
 
 <template>
