@@ -3,7 +3,7 @@ import 'flowbite'
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import navbar from '../components/navbar.vue'
-import type { WindType, WxType, RouteType } from '../types'
+import type { Route } from '../types'
 onMounted(() => {
   initFlowbite()
 })
@@ -17,10 +17,12 @@ export default {
   },
   data() {
     return {
-      routes: {} as RouteType,
+      routes: [] as Route[],
       dept_icao: '',
       dest_icao: '',
-      loading: true
+      loading: true,
+      single_icao: false,
+      err: ''
     }
   },
   methods: {
@@ -37,7 +39,15 @@ export default {
         })
         .catch((err) => {
           console.error(err)
+          this.err = err
         })
+    },
+    CheckDeptOrDest() {
+      if (this.dept_icao == '') {
+        if (this.dest_icao == '') {
+          this.single_icao = true
+        }
+      }
     }
   }
 }
@@ -72,6 +82,7 @@ export default {
                 </svg>
               </div>
               <input
+                @keyup.enter="fetchData"
                 type="text"
                 v-model="dept_icao"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -95,6 +106,7 @@ export default {
                 </svg>
               </div>
               <input
+                @keyup.enter="fetchData"
                 type="text"
                 v-model="dest_icao"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -123,12 +135,37 @@ export default {
               <span class="sr-only">Search</span>
             </button>
           </div>
+          <div v-if="err" class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+            Error
+          </div>
           <ul v-if="!loading" class="my-4 space-y-3">
             <li v-for="route in routes">
               <div class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
-                <div class="px-4 py-5 sm:p-6 mx-auto">
+                <div class="px-4 py-5 mx-auto">
+                  <div class="flex flex-row" v-if="single_icao">
+                    <div class="px-2 pb-3">
+                      <h3 class="text-sm font-medium text-gray-500 truncate">Departure</h3>
+                      <p class="px-4 mx-auto">{{ route.dept }}</p>
+                    </div>
+                    <div class="px-2" >
+                      <h3 class="text-sm font-medium text-gray-500 truncate">Destination</h3>
+                      <p class="px-4 mx-auto">{{ route.dest }}</p>
+                    </div>
+                  </div>
                   <h3 class="text-sm font-medium text-gray-500 truncate">Route</h3>
-                  <p class="mt-1 text-xl font-semibold text-gray-900">{{  }}</p>
+                  <p class="mt-1 text-md font-medium text-gray-900 mx-auto">{{ route.route }}</p>
+                  <div class="flex flex-row">
+                    <div class="px-5 ml-5" v-if="route.acft">
+                      <h3 class="pt-5 pb-3 text-sm font-medium text-gray-500 truncate">Aircraft Type</h3>
+                      <p class="px-4 mx-auto">{{ route.acft }}</p>
+                    </div>
+                    <div class="px-5 mx-auto" v-if="route.acft">
+                      <h3 class="pt-5 pb-3 text-sm font-medium text-gray-500 truncate">Notes</h3>
+                      <p class="px-4 mx-auto">{{ route.notes }}</p>
+                    </div>
+                  </div>
+                  
+
                 </div>
               </div>
             </li>

@@ -11,16 +11,11 @@ export type WxType = {
     cld: Array<string>,
 }
 
-export type RouteType = {
-    count: number,
-    routes: [
-        {
-            id: number,
-            dept: string,
-            dest: string,
-            acft: string,
-            route: string,
-            notes: string, 
-        }
-    ]
-}
+export type Route = {
+    id: number;
+    dept: string;
+    dest: string;
+    acft: string;
+    route: string;
+    notes: string;
+  };
