@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     fetchData() {
-      fetch(`${baseURL}/weather/${this.icao}`, {
+      fetch(`${baseURL}/weather/search/${this.icao}`, {
         method: 'GET'
       })
         .then((response) => {
