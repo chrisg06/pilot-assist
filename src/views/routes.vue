@@ -41,12 +41,11 @@ export default {
           console.error(err)
           this.err = err
         })
+      this.CheckDeptOrDest();
     },
     CheckDeptOrDest() {
-      if (this.dept_icao == '') {
-        if (this.dest_icao == '') {
-          this.single_icao = true
-        }
+      if (this.dept_icao === '' || this.dest_icao === '') {
+        this.single_icao = true
       }
     }
   }
