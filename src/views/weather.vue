@@ -25,7 +25,8 @@ export default {
       dewpoint: '',
       wx: {} as WxType,
       qnh: '',
-      loading: true
+      loading: true,
+      selected: 'Metar'
     }
   },
   methods: {
@@ -65,6 +66,13 @@ export default {
 
       <form class="flex flex-col mt-12" @submit.enter.prevent>
         <div class="flex items-center">
+          <div class="bg-white shadow mr-2">
+            <select v-model="selected" class="py-2 text-sm text-gray-700 rounded-md">
+              <option>Metar</option>
+              <option>TAF</option>
+            </select>
+          </div>
+
           <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -111,7 +119,7 @@ export default {
             <span class="sr-only">Search</span>
           </button>
         </div>
-        <ul v-if="!loading" class="my-4 space-y-3">
+        <ul v-if="!loading && selected == 'Metar'" class="my-4 space-y-3">
           <li>
             <div class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
               <div class="px-4 py-5 sm:p-6 mx-auto">
@@ -121,33 +129,38 @@ export default {
             </div>
           </li>
 
-          
-          <div class="grid grid-cols-2 gap-4">          
-
+          <div class="grid grid-cols-2 gap-4">
             <li
-            v-if="wind.direction"
-             class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              v-if="wind.direction"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Wind Direction</h3>
-                <p class="mt-1 text-xl font-semibold text-gray-900">{{ wind.direction }}</p>
+                <p class="mt-1 text-xl font-semibold text-gray-900">{{ wind.direction }}°</p>
               </div>
             </li>
-              <li
-              v-if="wind.speed" class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
-                <div class="px-4 py-5 sm:p-6 mx-auto">
-                  <h3 class="text-sm font-medium text-gray-500 truncate">Wind Speed</h3>
-                  <p class="mt-1 text-xl font-semibold text-gray-900">{{ wind.speed }}</p>
-                </div>
-              </li>
-            <li 
-            v-if="temp" class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+            <li
+              v-if="wind.speed"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
+              <div class="px-4 py-5 sm:p-6 mx-auto">
+                <h3 class="text-sm font-medium text-gray-500 truncate">Wind Speed</h3>
+                <p class="mt-1 text-xl font-semibold text-gray-900">{{ wind.speed }}</p>
+              </div>
+            </li>
+            <li
+              v-if="temp"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Temperature</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ temp }}</p>
               </div>
             </li>
             <li
-            v-if="dewpoint" class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              v-if="dewpoint"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Dewpoint</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ dewpoint }}</p>
@@ -166,8 +179,9 @@ export default {
               </div>
             </li>
             <li
-                v-if="wx.cld"
-             class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              v-if="wx.cld"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Cloud</h3>
                 <div class="flex justify-start">
@@ -178,23 +192,34 @@ export default {
               </div>
             </li>
             <li
-                v-if="wx.vis"
-             class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              v-if="wx.vis"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Visibility</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ wx.vis }}</p>
               </div>
             </li>
             <li
-                v-if="qnh"
-             class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              v-if="qnh"
+              class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg"
+            >
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">QNH</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ qnh }}</p>
               </div>
             </li>
-        </div>
-
+          </div>
+        </ul>
+        <ul v-if="!loading && selected == 'TAF'" class="my-4 space-y-3">
+          <li>
+            <div class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+              <div class="px-4 py-5 sm:p-6 mx-auto">
+                <h3 class="text-sm font-medium text-gray-500 truncate">TAF</h3>
+                <p class="mt-1 text-xl font-semibold text-gray-900">{{ taf }}</p>
+              </div>
+            </div>
+          </li>
         </ul>
       </form>
     </div>
