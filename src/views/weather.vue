@@ -67,7 +67,6 @@ export default {
 </script>
 
 <template>
-  <navbar></navbar>
   <main>
     <div class="px-6 pb-6 pt-4 mt-6 bg-white">
       <h1>
