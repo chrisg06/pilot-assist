@@ -9,7 +9,7 @@ onMounted(() => {
 })
 </script>
 <script lang="ts">
-const baseURL = 'http://localhost:3000'
+const baseURL = 'https://api.chrisgardiner.org'
 
 export default {
   props: {
@@ -31,20 +31,31 @@ export default {
   },
   methods: {
     fetchData() {
-      fetch(`${baseURL}/weather/search/${this.icao}`, {
+      fetch(`${baseURL}/metar/${this.icao}`, {
         method: 'GET'
       })
         .then((response) => {
           response.json().then((data) => {
             console.log(data)
             this.metar = data.metar
-            this.taf = data.taf
             this.wind = data.weather.wind
             this.temp = data.weather.temp
             this.dewpoint = data.weather.dewpoint
             this.wx = data.weather.wx
             this.qnh = data.weather.qnh
             this.loading = false
+          })
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+      fetch(`${baseURL}/taf/${this.icao}`, {
+        method: 'GET'
+      })
+        .then((response) => {
+          response.json().then((data) => {
+            console.log(data)
+            this.taf = data.taf
           })
         })
         .catch((err) => {
@@ -121,7 +132,7 @@ export default {
         </div>
         <ul v-if="!loading && selected == 'Metar'" class="my-4 space-y-3">
           <li>
-            <div class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+            <div class="flex max-w-xl border border-blue-300 overflow-hidden shadow-md rounded-lg">
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">Raw Metar</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ metar }}</p>
@@ -213,7 +224,7 @@ export default {
         </ul>
         <ul v-if="!loading && selected == 'TAF'" class="my-4 space-y-3">
           <li>
-            <div class="flex-grow border border-blue-300 overflow-hidden shadow-md rounded-lg">
+            <div class="flex max-w-xl border border-blue-300 overflow-hidden shadow-md rounded-lg">
               <div class="px-4 py-5 sm:p-6 mx-auto">
                 <h3 class="text-sm font-medium text-gray-500 truncate">TAF</h3>
                 <p class="mt-1 text-xl font-semibold text-gray-900">{{ taf }}</p>

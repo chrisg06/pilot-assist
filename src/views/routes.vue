@@ -9,7 +9,7 @@ onMounted(() => {
 })
 </script>
 <script lang="ts">
-const baseURL = 'http://localhost:3000'
+const baseURL = 'https://dev.chrisgardiner.org'
 
 export default {
   props: {
