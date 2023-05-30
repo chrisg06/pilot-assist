@@ -19,3 +19,15 @@ export type Route = {
     route: string;
     notes: string;
   };
+
+export type Notam = {
+    _id: string,
+    station: string,
+    number: string,
+    start: string,
+    end: string,
+    schedule: string,
+    body: string,
+    raw: string,
+    saved_at: string
+}
